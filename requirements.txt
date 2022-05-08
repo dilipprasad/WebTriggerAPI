@@ -1,11 +1,11 @@
 ###### Requirements without Version Specifiers ######
 click==7.1.2
 fastapi==0.63.0
+uvicorn[standard]==0.13.4
 h11==0.12.0
 pydantic==1.8.1
 starlette==0.13.6
 typing-extensions==3.7.4.3
-uvicorn==0.13.4
 azure==4.0.0
 # azure-storages==0.36.0
 azure-storage-queue==1.4.0
