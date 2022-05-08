@@ -5,7 +5,7 @@ from fastapi import FastAPI
 # import ml_model as model
 import pytz
 from datetime import datetime
-from NLPProcessor import NLPProcesor
+from api.NLPProcessor import NLPProcesor
 from Search import Search
 import WebCrawler
 import WebdataExtractor

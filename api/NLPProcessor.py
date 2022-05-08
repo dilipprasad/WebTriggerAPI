@@ -1,8 +1,9 @@
 import json
 import logging
 # from tkinter.tix import Tree
-import CommonMethods
-import AzureQueue
+from  api import CommonMethods
+from  api import AzureQueue
+
 from datetime import datetime
 import pytz
 import pandas as pd

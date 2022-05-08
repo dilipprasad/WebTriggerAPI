@@ -3,8 +3,8 @@
 
 import json
 import pytz
-import AzureQueue
 import logging
+from api import AzureQueue
 
 from CommonMethods import CommonFunctions
 

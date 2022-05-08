@@ -1,7 +1,7 @@
 import logging
 from tkinter.tix import Tree
-import CommonMethods
-import AzureQueue
+from api import CommonMethods
+from api import AzureQueue
 
 # logging.basicConfig(
 #     format='%(asctime)s %(levelname)s:%(message)s',
