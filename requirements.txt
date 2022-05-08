@@ -1,0 +1,11 @@
+###### Requirements without Version Specifiers ######
+azure
+azure-storages
+azure-storage-queue
+azure-data-tables
+urlparse
+
+logging
+urllib
+requests
+bs4
