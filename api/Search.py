@@ -82,5 +82,5 @@ class Search:
                 )
                 if j == (self.search_index.num_best-1):
                     break
-
-        return pd.DataFrame(search_names, columns=['Relevance','Url','Text'])
+        return search_names
+        # return pd.DataFrame(search_names, columns=['Relevance','Url','Text'])

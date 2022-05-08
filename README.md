@@ -13,3 +13,11 @@ run the following command to start `uvicorn api.main:app --reload`
 
 - http://127.0.0.1:8000/docs => Documentation of the API
 - http://127.0.0.1:8000 => API end point 
+
+
+In Azure this website is hosted at 
+
+https://webtriggerapi.azurewebsites.net/
+
+sample url to test
+https://webtriggerapi.azurewebsites.net/Ping
