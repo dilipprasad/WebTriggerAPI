@@ -10,6 +10,7 @@ from api import Search
 from api import WebCrawler
 from api import WebdataExtractor
 from api import AzureQueue
+import uvicorn
 
 # Declaring User signup data structure
 # class UserSignup(BaseModel):
@@ -23,6 +24,11 @@ from api import AzureQueue
 
 # Initializing FastAPI
 app = FastAPI()
+
+if __name__ == '__main__':
+   print('Initiating Main function')
+   uvicorn.run(app, host="0.0.0.0", port=90)
+
 
 # it will get the time zone of the specified location
 IST = pytz.timezone('Asia/Kolkata')
@@ -68,8 +74,7 @@ async def invoke_web_crawling():
      
     return msg
 
-# if __name__ == '__main__':
-#    print('Initiating Main function')
+
 
 
 @app.get("/GetAllQueueMessage")
