@@ -5,8 +5,7 @@ import json
 import pytz
 import logging
 from api import AzureQueue
-
-from CommonMethods import CommonFunctions
+from api import CommonMethods
 
 class WebExtractor:
     def __init__(self):
@@ -15,7 +14,7 @@ class WebExtractor:
         self.queue_crawledarchive = AzureQueue.AZQueue("queue-crawledarchiveurls")#for fetching links
         self.queue_extracteddetails = AzureQueue.AZQueue("queue-extractedpagedetails")#for queuein link with extracated text json 
 
-        self.CommonFunctions= CommonFunctions()
+        self.CommonFunctions= CommonMethods.CommonFunctions()
         self.allLinks = []
         self.queueMessages = [] #queue messages
         self.queueUrlCount = 0

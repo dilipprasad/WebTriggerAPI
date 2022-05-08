@@ -6,10 +6,10 @@ from fastapi import FastAPI
 import pytz
 from datetime import datetime
 from api.NLPProcessor import NLPProcesor
-from Search import Search
-import WebCrawler
-import WebdataExtractor
-import AzureQueue
+from api import Search
+from api import WebCrawler
+from api import WebdataExtractor
+from api import AzureQueue
 
 # Declaring User signup data structure
 # class UserSignup(BaseModel):
