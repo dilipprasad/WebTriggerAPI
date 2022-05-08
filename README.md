@@ -21,3 +21,7 @@ https://webtriggerapi.azurewebsites.net/
 
 sample url to test
 https://webtriggerapi.azurewebsites.net/Ping
+
+
+Also in Azure portal general setting add this in start up command
+gunicorn -w 4 -k uvicorn.workers.UvicornWorker api.main:app
