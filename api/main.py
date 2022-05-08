@@ -6,10 +6,10 @@ from fastapi import FastAPI
 import pytz
 from datetime import datetime
 from api.NLPProcessor import NLPProcesor
-from api import Search
-from api import WebCrawler
-from api import WebdataExtractor
-from api import AzureQueue
+from api.Search import Search
+from api.WebCrawler import WebCrawler
+from api.WebdataExtractor import WebExtractor
+from api.AzureQueue import AZQueue
 import uvicorn
 
 # Declaring User signup data structure
@@ -52,22 +52,22 @@ async def ping_api_status():
 @app.get("/InvokeCrawling")
 async def invoke_web_crawling():
 #    return crawl_limited_links()
-    results = await WebCrawler.WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).run()
+    results = await WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).run()
     return result
 
 
 @app.get("/InvokeWebExtraction")
 async def invoke_web_crawling():
 #    return crawl_limited_links()
-    results = await WebdataExtractor.WebExtractor().LoopThroughUrls()
+    results = await WebExtractor().LoopThroughUrls()
     return result
 
 
 @app.get("/GetQueueCount")
 async def invoke_web_crawling():
 #    return crawl_limited_links()
-    queue_crawledarchive =  AzureQueue.AZQueue("queue-crawledarchiveurls")#for fetching links
-    queue_extracteddetails =  AzureQueue.AZQueue("queue-extractedpagedetails")#for queuein link with extracated text json 
+    queue_crawledarchive =  AZQueue("queue-crawledarchiveurls")#for fetching links
+    queue_extracteddetails = AZQueue("queue-extractedpagedetails")#for queuein link with extracated text json 
 
     msg = f"Queue name- queue-crawledarchiveurls, Message Count: { await queue_crawledarchive.GetMessageCount()} <br/>"
     msg += f"Queue name- queue-extractedpagedetails, Message Count: {await queue_extracteddetails.GetMessageCount()} <br/>"
@@ -81,7 +81,7 @@ async def invoke_web_crawling():
 async def invoke_getall_queuemsg(queueName: str):
 #    return crawl_limited_links()
     #queueName = queue-crawledarchiveurls or queue-extractedpagedetails
-    queue =  AzureQueue.AZQueue(queueName)#for fetching links
+    queue =  AZQueue(queueName)#for fetching links
     result = await queue.GetAllQueueMessages(True)
     return " <br/>".join(result)
 
