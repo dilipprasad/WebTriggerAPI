@@ -6,13 +6,12 @@ pydantic==1.8.1
 starlette==0.13.6
 typing-extensions==3.7.4.3
 uvicorn==0.13.4
-azure
-azure-storages
-azure-storage-queue
-azure-data-tables
-urlparse
-
-logging
-urllib
-requests
-bs4
+azure==4.0.0
+# azure-storages==0.36.0
+azure-storage-queue==1.4.0
+azure-data-tables==12.3.0
+# logging
+# urllib
+requests==2.25.1
+bs4==0.0.1
+# urlparse
