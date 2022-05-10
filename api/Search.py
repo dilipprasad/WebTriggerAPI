@@ -5,7 +5,7 @@ from operator import itemgetter
 import nltk
 from translate import Translator
 import pandas as pd
-from gensim.similarities import MatrixSimilarity
+
 
 
 class Search:
@@ -84,3 +84,5 @@ class Search:
                     break
         return search_names
         # return pd.DataFrame(search_names, columns=['Relevance','Url','Text'])
+
+

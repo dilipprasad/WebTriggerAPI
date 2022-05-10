@@ -4,6 +4,7 @@ from urllib.parse import urljoin, urlparse
 import logging
 import requests
 from bs4 import BeautifulSoup
+from urllib.request import urlopen
 
 
 class CommonFunctions:
@@ -18,8 +19,10 @@ class CommonFunctions:
             r"([\w\-\._\~/]*)*(?<!\.)"  # path, params, anchors, etc.   (optional)
             )
         self.ignoredLinks = ['https://www.bundesarchiv.de/DE/Navigation/'] #Limiting the sub url crawl with 1 more more root url
-        self.blackListedUrls=  ['https://www.bundesarchiv.de/','http://www.bundesarchiv.de/']#Urls or sub urls of domain we dont want to crawl
+        self.blackListedUrls =  ['https://www.bundesarchiv.de/','http://www.bundesarchiv.de/']#Urls or sub urls of domain we dont want to crawl
         self.allowedDomains = ['www.bundesarchiv.de'] #Keeps us away from social media links
+        self.webPageReadTimeout = 30
+
 
     def JoinUrl(self,subUrl, currUrl):
     # print("BaseURL",baseUrl)
@@ -88,10 +91,38 @@ class CommonFunctions:
         return False
 
         
-    def ExisitsInArray(allLinks, urlToChk):
+    def ExisitsInArray(self, allLinks, urlToChk):
         try:
             return allLinks.index(urlToChk) >= 0
         except: 
             return False
         return False
     
+    def GetSoupContent(self,url):
+        try:
+            if url != None:
+                page = urlopen(url,timeout=self.webPageReadTimeout)
+                html = page.read().decode("utf-8")
+                #Use Beautiful Soup to process the data
+                soup = BeautifulSoup(html, "html.parser")
+                divEle = soup.find(id = "content")
+                return divEle.text
+        except:
+            print("Problem getting text content. url: "+url)
+        return None
+
+    def getSoupObj(self,url):
+        try:
+            if url != None:
+                page = urlopen(url,timeout=self.webPageReadTimeout)
+                html = page.read().decode("utf-8")
+                print("getSoupObj",url)
+                #Use Beautiful Soup to process the data
+                soup = BeautifulSoup(html, "html.parser")
+                # pagetext =soup.get_text()
+                return soup
+        except:
+            print("Problem crawling url: "+url)
+        return None
+
+   

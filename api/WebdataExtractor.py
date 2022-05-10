@@ -22,7 +22,7 @@ class WebExtractor:
     
     async def LoopThroughUrls(self):
         try:
-            queueUrlCount = self.queue_crawledarchive.GetMessageCount()
+            queueUrlCount =await self.queue_crawledarchive.GetMessageCount()
             logging.info("Message count: " + str(queueUrlCount))
         except Exception as e: 
             print("Problem fetching count from queue. Message : "+ str(e)) 
@@ -36,14 +36,17 @@ class WebExtractor:
                         url = urlMsg.content 
                         if self.CommonFunctions.ExisitsInArray(self.allLinks,url) == False: #Check if the Url is not already added to the list
                             self.allLinks.append(url)
-                            #Queue new data
-                            txt = self.GetSoupContent(url)
-                            if txt != None:
-                                txt= txt.strip()
-                                jsonData = {"Url":url, "TextInfo":txt}
-                                json_dump = json.dumps(jsonData)#Serialize data
-                                print(json_dump)
-                                self.queue_extracteddetails.QueueMessage(json_dump)
+                            try:
+                                #Queue new data
+                                txt = self.CommonFunctions.GetSoupContent(url)
+                                if txt != None:
+                                    txt= txt.strip()
+                                    jsonData = {"Url":url, "TextInfo":txt}
+                                    json_dump = json.dumps(jsonData)#Serialize data
+                                    print(json_dump)
+                                    self.queue_extracteddetails.QueueMessage(json_dump)
+                            except:
+                                print("Problem sending to queue. Message : "+ str(e))                    
             queueMessages =  self.queue_crawledarchive.GetQueueMessages()    
         except Exception as e: 
             print("Problem processing urls. Message : "+ str(e))

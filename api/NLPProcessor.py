@@ -56,7 +56,7 @@ class NLPProcesor:
                     if queMsg != None:
                         msgCont = queMsg.content 
                         print("msgCont: "+ msgCont)
-                        # queue_service.delete_message(extractedDetails_queue_name,queMsg.id, queMsg.pop_receipt)
+                        self.queue_service.DeleteQueueMessages(queMsg.id, queMsg.pop_receipt)
                         #convert string to  object
                         json_object = json.loads(msgCont)
                         url = json_object["Url"]
@@ -64,7 +64,8 @@ class NLPProcesor:
                         if self.CommonMethods.ExisitsInArray(self.allLinks,url) == False and TextInfo != None: #Check if the Url is not already added to the list
                             self.allLinks.append(url)
                             self.textData.append([url, TextInfo])
-            queueMessages = self.queue_service.GetQueueMessages()
+                            
+                queueMessages = self.queue_service.GetQueueMessages()
         except Exception as e: 
             print("Problem Fetching text from queue. Message : "+ str(e))
             return None

@@ -52,7 +52,8 @@ async def ping_api_status():
 @app.get("/InvokeCrawling")
 async def invoke_web_crawling():
 #    return crawl_limited_links()
-    results = await WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).run()
+    #results = await WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).run()
+    results = await WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).runLimited()
     return result
 
 
@@ -89,7 +90,7 @@ async def invoke_getall_queuemsg(queueName: str):
 
 @app.get("/ProcessNLP")
 async def invoke_web_crawling():
-    results = await NLPProcesor.Invoke()
+    results = await NLPProcesor().Invoke()
     return results
 
 
