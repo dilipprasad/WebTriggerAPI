@@ -34,6 +34,7 @@ class WebExtractor:
                 for urlMsg in queueMessages:
                     if urlMsg != None:
                         url = urlMsg.content 
+                        self.queue_crawledarchive.DeleteQueueMessages(urlMsg.id,urlMsg.pop_receipt)
                         if self.CommonFunctions.ExisitsInArray(self.allLinks,url) == False: #Check if the Url is not already added to the list
                             self.allLinks.append(url)
                             try:

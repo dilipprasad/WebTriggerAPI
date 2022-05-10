@@ -27,7 +27,7 @@ class AZQueue:
         self.queue_service.put_message(self.queue_name,urlVal)    
 
     def QueueMessage(self,msg):
-        print("Queueing message:")
+        print("Queueing message:"+ msg)
         self.queue_service.put_message(self.queue_name,msg)       
 
     async def GetMessageCount(self):
