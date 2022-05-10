@@ -30,7 +30,7 @@ class AZQueue:
         print("Queueing message:"+ msg)
         self.queue_service.put_message(self.queue_name,msg)       
 
-    async def GetMessageCount(self):
+    def GetMessageCount(self):
         metadata = self.queue_service.get_queue_metadata(self.queue_name)
         count = metadata.approximate_message_count
         print("Message count: " + str(count))   
@@ -38,7 +38,7 @@ class AZQueue:
      
 
     def GetQueueMessages(self, deleteMsg = False,msglimit= 30):
-        messagesArr = []
+        messagesArr = ['']
         messages = self.queue_service.get_messages(self.queue_name, num_messages=msglimit)  
         for message in messages:
             print("Dequeueing message: " + message.content)
@@ -52,7 +52,7 @@ class AZQueue:
             self.queue_service.delete_message(queue_name=self.queue_name,message_id=msgId,pop_receipt=popReceipt)
         except Exception as e:
             print("Error in DeleteQueueMessages(), Msg: {e}")
-
+          
     
     def GetAllQueueMessages(self, deleteMsg = False):
         messagesArr = []

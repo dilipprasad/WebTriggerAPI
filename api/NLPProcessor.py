@@ -42,18 +42,18 @@ class NLPProcesor:
         
     def DownloadMessages(self):
         try:
-            queueUrlCount = self.queue_service.GetMessageCount()
+            queueUrlCount =  self.queue_service.GetMessageCount()
             print("Message count: " + str(queueUrlCount))
         except Exception as e: 
             print("Problem fetching count from queue. Message : "+ str(e)) 
             return None   
 
         try:   
-            queueMessages = self.queue_service.GetQueueMessages()
-            while queueMessages != None and len(queueMessages) > 0:
+            queueMessages = self.queue_service.GetQueueMessages()#deleteMsg= True
+            while queueMessages != None and len(queueMessages) > 1:
                 print('queue is not none')
                 for queMsg in queueMessages:
-                    if queMsg != None:
+                    if queMsg != None and  queMsg != '':
                         msgCont = queMsg.content 
                         print("msgCont: "+ msgCont)
                         self.queue_service.DeleteQueueMessages(queMsg.id, queMsg.pop_receipt)
@@ -65,7 +65,7 @@ class NLPProcesor:
                             self.allLinks.append(url)
                             self.textData.append([url, TextInfo])
                             
-                queueMessages = self.queue_service.GetQueueMessages()
+                queueMessages = self.queue_service.GetQueueMessages()#deleteMsg= True
         except Exception as e: 
             print("Problem Fetching text from queue. Message : "+ str(e))
             return None
@@ -76,9 +76,10 @@ class NLPProcesor:
         print("initiaing crawling: "+ datetime.now(self.IST).strftime("%d/%m/%Y %H:%M:%S"))
         self.DownloadMessages()
         arrHeader = ['Url','TextInfo']
-        urlDetails = pd.DataFrame(self.textData,  columns= arrHeader)
-        self.urlDetails= urlDetails
-        print("End of crawling: "+ datetime.now(self.IST).strftime("%d/%m/%Y %H:%M:%S"))     
+        if self.textData != None and len(self.textData) > 0:
+            urlDetails = pd.DataFrame(self.textData,  columns= arrHeader)
+            self.urlDetails= urlDetails
+            print("End of crawling: "+ datetime.now(self.IST).strftime("%d/%m/%Y %H:%M:%S"))     
 
     def SentenceTokenize(self):
         #create a New column for the scentence tokenization first part of stemming

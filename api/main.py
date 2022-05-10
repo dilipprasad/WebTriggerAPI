@@ -70,10 +70,11 @@ async def invoke_web_crawling():
     queue_crawledarchive =  AZQueue("queue-crawledarchiveurls")#for fetching links
     queue_extracteddetails = AZQueue("queue-extractedpagedetails")#for queuein link with extracated text json 
 
-    msg = f"Queue name- queue-crawledarchiveurls, Message Count: { await queue_crawledarchive.GetMessageCount()} <br/>"
-    msg += f"Queue name- queue-extractedpagedetails, Message Count: {await queue_extracteddetails.GetMessageCount()} <br/>"
+    msg = f"Queue name- queue-crawledarchiveurls, Message Count: {  queue_crawledarchive.GetMessageCount()} <br/>"
+    msg += f"Queue name- queue-extractedpagedetails, Message Count: { queue_extracteddetails.GetMessageCount()} <br/>"
      
     return msg
+
 
 
 

@@ -22,7 +22,7 @@ class WebExtractor:
     
     async def LoopThroughUrls(self):
         try:
-            queueUrlCount =await self.queue_crawledarchive.GetMessageCount()
+            queueUrlCount =  self.queue_crawledarchive.GetMessageCount()
             logging.info("Message count: " + str(queueUrlCount))
         except Exception as e: 
             print("Problem fetching count from queue. Message : "+ str(e)) 
@@ -30,26 +30,37 @@ class WebExtractor:
 
         try:   
             queueMessages = self.queue_crawledarchive.GetQueueMessages()
-            while queueMessages != None and len(queueMessages) > 0:
-                for urlMsg in queueMessages:
-                    if urlMsg != None:
-                        url = urlMsg.content 
-                        self.queue_crawledarchive.DeleteQueueMessages(urlMsg.id,urlMsg.pop_receipt)
-                        if self.CommonFunctions.ExisitsInArray(self.allLinks,url) == False: #Check if the Url is not already added to the list
-                            self.allLinks.append(url)
-                            try:
-                                #Queue new data
-                                txt = self.CommonFunctions.GetSoupContent(url)
-                                if txt != None:
-                                    txt= txt.strip()
-                                    jsonData = {"Url":url, "TextInfo":txt}
-                                    json_dump = json.dumps(jsonData)#Serialize data
-                                    print(json_dump)
-                                    self.queue_extracteddetails.QueueMessage(json_dump)
-                            except:
-                                print("Problem sending to queue. Message : "+ str(e))                    
-            queueMessages =  self.queue_crawledarchive.GetQueueMessages()    
+            currIterationAllowed = queueMessages is not None and len(queueMessages) > 1
+            if currIterationAllowed == True:
+                while currIterationAllowed:
+                    for urlMsg in queueMessages:
+                        if urlMsg != None and urlMsg != '':
+                            url = urlMsg.content 
+                            self.queue_crawledarchive.DeleteQueueMessages(urlMsg.id,urlMsg.pop_receipt)
+                            if self.CommonFunctions.ExisitsInArray(self.allLinks,url) == False: #Check if the Url is not already added to the list
+                                self.allLinks.append(url)
+                                try:
+                                    #Queue new data
+                                    txt = self.CommonFunctions.GetSoupContent(url)
+                                    if txt != None:
+                                        txt= txt.strip()
+                                        jsonData = {"Url":url, "TextInfo":txt}
+                                        json_dump = json.dumps(jsonData)#Serialize data
+                                        print(json_dump)
+                                        self.queue_extracteddetails.QueueMessage(json_dump)
+                                except:
+                                    print("Problem sending to queue. Message : "+ str(e))                    
+                    queueMessages =  self.queue_crawledarchive.GetQueueMessages()    
+                    currIterationAllowed = queueMessages is not None and len(queueMessages) > 1
+
+        # except: 
+        #     print("Problem processing urls. Message : ")
         except Exception as e: 
             print("Problem processing urls. Message : "+ str(e))
             return None
+        finally:
+            print('Web data extraction complete')
+        # except Exception as e: 
+        #     print("Problem processing urls. Message : "+ str(e))
+        #     return None
 
