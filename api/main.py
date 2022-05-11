@@ -54,14 +54,14 @@ async def invoke_web_crawling():
 #    return crawl_limited_links()
     #results = await WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).run()
     results = await WebCrawler(['https://www.bundesarchiv.de/cocoon/barch/0000/index.html']).runLimited()
-    return result
+    return 'Completed Crawling'
 
 
 @app.get("/InvokeWebExtraction")
 async def invoke_web_crawling():
 #    return crawl_limited_links()
     results = await WebExtractor().LoopThroughUrls()
-    return result
+    return 'Completed Data Extraction'
 
 
 @app.get("/GetQueueCount")
